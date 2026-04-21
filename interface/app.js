@@ -1,9 +1,6 @@
-// ============================================================
-//  GateKeeper — Firebase Auth + Realtime Database
-// ============================================================
+
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAnalytics }  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -19,7 +16,6 @@ import {
   get
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-// ─── CREDENCIAIS ───────────────────────────────────────────
 const firebaseConfig = {
   apiKey:            "AIzaSyDXPxpZEggYUjts0pnJSAzk50yGcH1Oddo",
   authDomain:        "gatekeeper-2f6de.firebaseapp.com",
@@ -32,7 +28,6 @@ const firebaseConfig = {
 };
 
 const app       = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 const auth      = getAuth(app);
 const db        = getDatabase(app);
 
@@ -47,10 +42,9 @@ const adminCheckbox = document.querySelector('.adm-forgot input[type="checkbox"]
 const formTitle     = document.querySelector("h1");
 const registerText  = document.querySelector(".register-link p");
 
-// ─── ESTADO ────────────────────────────────────────────────
+
 let isRegisterMode = false;
 
-// ─── ALTERNAR LOGIN / CADASTRO ─────────────────────────────
 registerLink.addEventListener("click", (e) => {
   e.preventDefault();
   isRegisterMode = !isRegisterMode;
@@ -68,7 +62,6 @@ registerLink.addEventListener("click", (e) => {
   }
 });
 
-// ─── FORGOT PASSWORD ───────────────────────────────────────
 forgotLink.addEventListener("click", async (e) => {
   e.preventDefault();
   const email = emailInput.value.trim();
@@ -82,7 +75,6 @@ forgotLink.addEventListener("click", async (e) => {
   }
 });
 
-// ─── SUBMIT (LOGIN OU CADASTRO) ────────────────────────────
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -117,7 +109,6 @@ form.addEventListener("submit", async (e) => {
   }
 });
 
-// ─── REDIRECIONAR APÓS LOGIN ───────────────────────────────
 onAuthStateChanged(auth, async (user) => {
   if (!user) return;
 
@@ -142,7 +133,6 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-// ─── ERROS AMIGÁVEIS ───────────────────────────────────────
 function friendlyError(code) {
   const map = {
     "auth/user-not-found":        "Usuário não encontrado.",
@@ -157,7 +147,6 @@ function friendlyError(code) {
   return map[code] || "Erro inesperado. Tente novamente.";
 }
 
-// ─── TOAST ─────────────────────────────────────────────────
 function showToast(message, type = "success") {
   const old = document.getElementById("gk-toast");
   if (old) old.remove();
