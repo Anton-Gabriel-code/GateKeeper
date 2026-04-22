@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>GateKeeper — Admin</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Montserrat',sans-serif; }
+    body {
+      min-height:100vh;
+      background: linear-gradient(rgba(0,0,40,0.85), rgba(0,0,40,0.85)), url('img/jellyfish_bg');
+      background-size:cover; background-position:center;
+      color:#fff; padding:30px;
+    }
+    header {
+      display:flex; justify-content:space-between; align-items:center;
+      margin-bottom:30px;
+    }
+    .logo { font-size:24px; font-weight:700; }
+    .logo span { color:#8c78dc; }
+    .badge {
+      background:#4a3690; padding:6px 18px; border-radius:50px;
+      font-size:13px; font-weight:600; display:flex; align-items:center; gap:6px;
+    }
+    .badge .dot { width:8px; height:8px; background:#4ade80; border-radius:50%; animation:pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .btn-logout {
+      background:transparent; border:2px solid rgba(255,255,255,.2);
+      color:#fff; padding:8px 20px; border-radius:50px; cursor:pointer;
+      font-family:'Montserrat',sans-serif; font-size:14px; font-weight:500; transition:0.3s;
+    }
+    .btn-logout:hover { background:rgba(255,255,255,.1); }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:20px; }
+    .card {
+      background:rgba(255,255,255,.07); border:2px solid rgba(255,255,255,.15);
+      border-radius:16px; padding:24px; backdrop-filter:blur(10px); transition:transform 0.2s;
+    }
+    .card:hover { transform:translateY(-3px); }
+    .card.allowed { border-color:rgba(140,120,220,.5); }
+    .card-icon { font-size:28px; margin-bottom:12px; display:block; }
+    .card-title { font-size:16px; font-weight:700; margin-bottom:6px; }
+    .card-path  { font-size:11px; color:#8c78dc; margin-bottom:8px; font-weight:500; }
+    .card-desc  { font-size:13px; color:#c5c5c5; margin-bottom:14px; line-height:1.5; }
+    .status {
+      display:inline-flex; align-items:center; gap:5px;
+      font-size:11px; font-weight:700; padding:4px 12px; border-radius:20px;
+    }
+    .status.ok { background:rgba(74,222,128,.15); color:#4ade80; }
+    .data-box {
+      background:rgba(0,0,0,.3); border:1px solid rgba(255,255,255,.1);
+      border-radius:12px; padding:16px; margin-top:12px;
+      font-size:12px; color:#c5c5c5; line-height:1.6;
+      white-space:pre-wrap; font-family:monospace; max-height:160px; overflow-y:auto;
+    }
+    .user-info { margin-bottom:30px; }
+    .user-info h2 { font-size:20px; color:#8c78dc; margin-bottom:4px; }
+    .user-info p { color:#c5c5c5; font-size:14px; }
+    .user-info span { color:#8c78dc; font-weight:600; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Gate<span>Keeper</span></div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div class="badge"><span class="dot"></span> ADMIN</div>
+      <button class="btn-logout" onclick="logout()"><i class='bx bx-log-out'></i> Sair</button>
+    </div>
+  </header>
+
+  <div class="user-info">
+    <h2>🛡️ Painel do Administrador</h2>
+    <p>Logado como: <span id="user-email">carregando...</span></p>
+  </div>
+
+  <div class="grid" id="cards"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getDatabase, ref, get, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyATOJfKg5KYjcgoBBrceV9z1Afle-iBqz4",
+      authDomain: "gatekeeper-2f6de-5fda9.firebaseapp.com",
+      databaseURL: "https://gatekeeper-2f6de-5fda9-default-rtdb.firebaseio.com",
+      projectId: "gatekeeper-2f6de-5fda9",
+      storageBucket: "gatekeeper-2f6de-5fda9.firebasestorage.app",
+      messagingSenderId: "891828283856",
+      appId: "1:891828283856:web:1422ffb3724a746a14f1d5",
+      measurementId: "G-KZ6L5XJ7VZ"
+    };
+
+    const app  = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db   = getDatabase(app);
+
+    window.logout = () => signOut(auth).then(() => window.location.href = "index.html");
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) { window.location.href = "index.html"; return; }
+
+      const snap = await get(ref(db, `users/${user.uid}`));
+      const data = snap.val();
+      if (!data || data.role !== "admin") {
+        await signOut(auth);
+        window.location.href = "index.html";
+        return;
+      }
+
+      document.getElementById("user-email").textContent = user.email;
+
+      const nodes = [
+        { icon:"👤", title:"Meu Perfil",           path:`/users/${user.uid}`, dbPath:`users/${user.uid}`, desc:"Seus dados pessoais e cargo no sistema." },
+        { icon:"📢", title:"Avisos Públicos",       path:"/public-data",       dbPath:"public-data",       desc:"Comunicados visíveis a todos os usuários." },
+        { icon:"🔐", title:"Dados Administrativos", path:"/admin-data",        dbPath:"admin-data",        desc:"Financeiro, logs e dados sensíveis." },
+        { icon:"📊", title:"Relatórios",            path:"/reports",           dbPath:"reports",           desc:"KPIs mensais e métricas de desempenho." },
+      ];
+
+      const grid = document.getElementById("cards");
+
+      nodes.forEach(node => {
+        const card = document.createElement("div");
+        card.className = "card allowed";
+        card.innerHTML = `
+          <span class="card-icon">${node.icon}</span>
+          <div class="card-path">${node.path}</div>
+          <div class="card-title">${node.title}</div>
+          <div class="card-desc">${node.desc}</div>
+          <span class="status ok">✓ ACESSO PERMITIDO</span>
+          <div class="data-box" id="data-${node.dbPath.replace(/\//g,'-')}">Carregando...</div>
+        `;
+        grid.appendChild(card);
+
+        onValue(ref(db, node.dbPath), snap => {
+          const el = document.getElementById(`data-${node.dbPath.replace(/\//g,'-')}`);
+          el.textContent = snap.val() ? JSON.stringify(snap.val(), null, 2) : "Sem dados.";
+        }, err => {
+          const el = document.getElementById(`data-${node.dbPath.replace(/\//g,'-')}`);
+          el.textContent = "🔒 " + err.message;
+          el.style.color = "#e74c3c";
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -15,7 +15,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyATOJfKg5KYjcgoBBrceV9z1Afle-i8qz4",
+  apiKey: "AIzaSyATOJfKg5KYjcgoBBrceV9z1Afle-iBqz4",
   authDomain: "gatekeeper-2f6de-5fda9.firebaseapp.com",
   databaseURL: "https://gatekeeper-2f6de-5fda9-default-rtdb.firebaseio.com",
   projectId: "gatekeeper-2f6de-5fda9",
