@@ -178,15 +178,3 @@ cd GateKeeper
 | `admin@demo.com` | `demo123` | admin |
 | `user@demo.com` | `demo123` | user |
 
----
-
-## 📋 Critérios de Avaliação
-
-| Critério | Pts |
-|---|---|
-| Modelagem do banco (4 nós, tipagem, justificativa) | 8 |
-| Security Rules por cargo (leitura + escrita separadas) | 10 |
-| Autenticação + cargo salvo no banco ao criar conta | 6 |
-| Interface visual com mapa de acesso + dados em tempo real | 4 |
-| README + documentação | 2 |
-| **Total** | **30** |
