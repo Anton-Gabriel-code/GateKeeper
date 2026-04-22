@@ -1,5 +1,3 @@
-
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
   getAuth,
@@ -17,21 +15,20 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey:            "AIzaSyDXPxpZEggYUjts0pnJSAzk50yGcH1Oddo",
-  authDomain:        "gatekeeper-2f6de.firebaseapp.com",
-  databaseURL:       "https://gatekeeper-2f6de-default-rtdb.firebaseio.com",
-  projectId:         "gatekeeper-2f6de",
-  storageBucket:     "gatekeeper-2f6de.firebasestorage.app",
-  messagingSenderId: "574371804856",
-  appId:             "1:574371804856:web:16059f97eb2c694699264d",
-  measurementId:     "G-R1V87GR2CZ"
+  apiKey: "AIzaSyATOJfKg5KYjcgoBBrceV9z1Afle-i8qz4",
+  authDomain: "gatekeeper-2f6de-5fda9.firebaseapp.com",
+  databaseURL: "https://gatekeeper-2f6de-5fda9-default-rtdb.firebaseio.com",
+  projectId: "gatekeeper-2f6de-5fda9",
+  storageBucket: "gatekeeper-2f6de-5fda9.firebasestorage.app",
+  messagingSenderId: "891828283856",
+  appId: "1:891828283856:web:1422ffb3724a746a14f1d5",
+  measurementId: "G-KZ6L5XJ7VZ"
 };
 
-const app       = initializeApp(firebaseConfig);
-const auth      = getAuth(app);
-const db        = getDatabase(app);
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getDatabase(app);
 
-// ─── ELEMENTOS DO DOM ──────────────────────────────────────
 const form          = document.querySelector("form");
 const emailInput    = document.querySelector('input[type="email"]');
 const passwordInput = document.querySelector('input[type="password"]');
@@ -41,7 +38,6 @@ const forgotLink    = document.querySelector(".adm-forgot a");
 const adminCheckbox = document.querySelector('.adm-forgot input[type="checkbox"]');
 const formTitle     = document.querySelector("h1");
 const registerText  = document.querySelector(".register-link p");
-
 
 let isRegisterMode = false;
 

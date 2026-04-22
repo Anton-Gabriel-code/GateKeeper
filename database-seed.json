@@ -1,0 +1,14 @@
+{
+  "users": {
+    "p1WSwnuwy1XmMveHmlBVvb": {
+      "email": "admin@demo.com",
+      "role": "admin",
+      "createdAt": "2026-04-21"
+    },
+    "yR2aW7bomEZ5zgVOD9I7FQ8": {
+      "email": "user@demo.com",
+      "role": "user",
+      "createdAt": "2026-04-21"
+    }
+  }
+}
