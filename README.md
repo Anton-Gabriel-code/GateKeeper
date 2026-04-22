@@ -4,10 +4,9 @@ Aplicação web com controle de acesso baseado em cargos (**Role-Based Access Co
 
 ---
 
-## Alunos:
+## Alunos que Participaram do projeto:
 [Antonio Gabriel](https://github.com/Anton-Gabriel-code)
-
-[Eudes OLiveira]( https://github.com/eudesolv)
+[Eudes Oliveira]( https://github.com/eudesolv)
 
 
 
