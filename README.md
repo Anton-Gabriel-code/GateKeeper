@@ -4,6 +4,12 @@ Aplicação web com controle de acesso baseado em cargos (**Role-Based Access Co
 
 ---
 
+## Alunos:
+[Antonio Gabriel](https://seu-link-aqui.com)
+[Eudes OLiveira](https://seu-link-aqui.com)
+
+
+
 ## 🗂️ Estrutura do Banco de Dados
 
 ```
