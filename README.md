@@ -4,6 +4,14 @@ Aplicação web com controle de acesso baseado em cargos (**Role-Based Access Co
 
 ---
 
+## Alunos que Participaram do projeto:
+[Antonio Gabriel](https://github.com/Anton-Gabriel-code)
+[Eudes Oliveira]( https://github.com/eudesolv)
+
+
+
+
+
 ## 🗂️ Estrutura do Banco de Dados
 
 ```
